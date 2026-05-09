@@ -76,3 +76,57 @@ int main() {
 
     return 0;
 }
+
+
+
+
+
+
+
+
+#transitive closure using warshalls algorithm code in c
+
+
+#include <stdio.h>
+
+#define V 4 // Number of vertices
+
+void printMatrix(int matrix[V][V]) {
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++)
+            printf("%d ", matrix[i][j]);
+        printf("\n");
+    }
+}
+
+void transitiveClosure(int graph[V][V]) {
+    int reach[V][V], i, j, k;
+
+    // Initialize reachability matrix with input graph
+    for (i = 0; i < V; i++)
+        for (j = 0; j < V; j++)
+            reach[i][j] = graph[i][j];
+
+    // Core Warshall's Logic
+    for (k = 0; k < V; k++) {
+        for (i = 0; i < V; i++) {
+            for (j = 0; j < V; j++) {
+                // If vertex k is an intermediate, update reachability
+                reach[i][j] = reach[i][j] || (reach[i][k] && reach[k][j]);
+            }
+        }
+    }
+
+    printf("Transitive Closure Matrix:\n");
+    printMatrix(reach);
+}
+
+int main() {
+    int graph[V][V] = { {1, 1, 0, 1},
+                        {0, 1, 1, 0},
+                        {0, 0, 1, 1},
+                        {0, 0, 0, 1} };
+
+    transitiveClosure(graph);
+    return 0;
+}
